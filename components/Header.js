@@ -83,7 +83,7 @@ function Header() {
         effect={"fade"}
         loop
         autoplay={{
-          delay: 1000,
+          delay: 2000,
         }}
         modules={[Pagination, EffectFade, Autoplay]}
         spaceBetween={10}
