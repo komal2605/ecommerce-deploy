@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.space {
+  letter-spacing: 2px;
+}
+
+.upperCase {
+  text-transform: uppercase;
+}
+/* header  */
+@keyframes slideInFromBottom {
+  from {
+    bottom: -100%;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    bottom: -0%;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    top: -100%;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    top: -20%;
+  }
+}
+
+.animated-image-container.active .animated-image {
+  animation: slideInFromBottom 0.5s ease-in-out forwards;
+}
+
+.animated-image-container.active.top .animated-image {
+  animation: slideInFromTop 0.5s ease-in-out 0.2s forwards;
+}
+
+.swiper-pagination {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: max-content !important;
+  height: max-content !important;
+  left: -50px !important;
+  top: 40% !important;
+}
+.swiper-pagination-bullet::after {
+  content: "";
+  margin-top: -11px;
+  margin-left: 23px;
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: #cdcdcd;
+  transition: width 0.3s;
+}
+
+.swiper-pagination-bullet-active::after {
+  background-color: #000;
+  width: 80px !important;
+}
+
+.swiper {
+  position: unset !important;
+}
+.swiper-pagination-bullet {
+  width: 20px !important;
+  height: 20px !important;
+  text-align: center;
+  line-height: 20px;
+  font-size: 14px;
+  color: #cdcdcd;
+  opacity: 1 !important;
+  background-color: transparent !important;
+}
+
+.swiper-pagination-bullet-active {
+  font-size: 18px;
+  color: #000;
+}
+/* card/item */
+.price {
+  transform: translateX(-140%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.cart {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.item-card:hover .price {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.item-card:hover .cart {
+  transform: translateX(10%);
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* footer */
+.footer-links {
+  cursor: pointer;
+  max-width: max-content;
+  position: relative;
+  overflow: hidden;
+  transition: padding-left 0.4s;
+}
+
+.footer-links span {
+  position: absolute;
+  left: -100%;
+  top: 0;
+  opacity: 0;
+  transition: left 0.4s, opacity 0.4s ease-in-out;
+}
+
+.footer-links:hover span {
+  left: 0;
+  opacity: 1;
+}
+
+.footer-links:hover {
+  padding-left: 20px;
+  transition: padding-left 0.4s ease-in-out;
+}

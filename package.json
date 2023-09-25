@@ -1,0 +1,28 @@
+{
+  "name": "ecommerce-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/joy": "^5.0.0-beta.7",
+    "@mui/lab": "^5.0.0-alpha.145",
+    "@mui/material": "^5.14.10",
+    "@reduxjs/toolkit": "^1.9.5",
+    "bootstrap": "^5.3.2",
+    "firebase": "^10.4.0",
+    "next": "13.5.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.2",
+    "react-redux": "^8.1.2",
+    "swiper": "^10.3.0"
+  }
+}
