@@ -7,19 +7,21 @@ function SlideContent({ position, height, image, title, desc }) {
     <Box sx={{ bgcolor: "#F3F3F3", height: "calc(100vh - 170px)" }}>
       <Box className="w-100 mx-0 d-flex gap-5 w-100 h-100">
         <Box
-          className=" d-flex flex-column justify-content-center gap-2 mt-auto"
+          className=" d-flex flex-column justify-content-center mt-auto"
           sx={{ width: "40%", mb: 5, p: "0 30px 45px 100px" }}
         >
-          <Typography
-            variant="h5"
-            component="h5"
-            className="text-uppercase fw-semibold"
-          >
-            {title}
-          </Typography>
-          <Typography variant="subtitle1" component="h5">
-            {desc}
-          </Typography>
+          <Box className="text-animate">
+            <Typography
+              variant="h5"
+              component="h5"
+              className="text-uppercase fw-semibold mb-2"
+            >
+              {title}.
+            </Typography>
+            <Typography variant="subtitle1" component="h5">
+              {desc}
+            </Typography>
+          </Box>
         </Box>
         <Box
           className={`animated-image-container ${
@@ -35,7 +37,6 @@ function SlideContent({ position, height, image, title, desc }) {
         >
           {image.map((img, index) => (
             <div
-              className={`.img${index}`}
               key={index}
               style={{
                 width: image.length > 1 ? "50%" : "100%",
@@ -48,7 +49,7 @@ function SlideContent({ position, height, image, title, desc }) {
               <img
                 src={img}
                 alt=".."
-                className="animated-image"
+                className="animate-image"
                 style={{
                   objectFit: "contain",
                   width: "100%",

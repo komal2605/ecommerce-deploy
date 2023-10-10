@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getData, uploadData } from "../APIs/firebaseAPI";
 
 const initialState = {
   DummyData: [
@@ -49,7 +50,32 @@ const initialState = {
   ],
   loading: false,
   productList: [],
+  products: [],
 };
+
+export const postProductAsync = createAsyncThunk(
+  "postData/products",
+  async (_, { getState }) => {
+    try {
+      const dataRef = getState().product.DummyData;
+      const productsList = await uploadData(dataRef);
+      console.log(productsList);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+);
+export const getProductsAsync = createAsyncThunk(
+  "products/getProducts",
+  async () => {
+    try {
+      const docs = await getData("products");
+      return docs;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 export const productsSlice = createSlice({
   name: "product",
@@ -88,6 +114,30 @@ export const productsSlice = createSlice({
       );
       state.productList = updatedCollection;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(postProductAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(postProductAsync.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(postProductAsync.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action.error.message);
+      })
+      .addCase(getProductsAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProductsAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload;
+      })
+      .addCase(getProductsAsync.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action.error.message);
+      });
   },
 });
 

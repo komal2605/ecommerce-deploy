@@ -32,13 +32,12 @@ const SlideData = [
     ],
     position: "bottom",
     height: "140%",
-    title: "Contemporary Design.",
+    title: "Contemporary Design",
     desc: " A large set of beautiful & fully flexible homepage layouts lets you create your website quickly & easily.",
   },
 ];
 
 function Header() {
-  const [initialLoad, setInitialLoad] = React.useState(true);
   const pagination = {
     clickable: true,
     renderBullet: function (index, className) {
@@ -53,46 +52,19 @@ function Header() {
     },
   };
 
-  const handleSlideChange = (swiper) => {
-    swiper.slides.forEach((slide, index) => {
-      const imageContainer = slide.querySelector(".animated-image-container");
-      if (imageContainer) {
-        if (index === swiper.activeIndex) {
-          imageContainer.classList.add("active");
-        } else {
-          imageContainer.classList.remove("active");
-        }
-      }
-    });
-  };
-
-  React.useEffect(() => {
-    if (initialLoad) {
-      const firstSlideImageContainer = document.querySelector(
-        ".swiper-slide-active .animated-image-container"
-      );
-      if (firstSlideImageContainer) {
-        firstSlideImageContainer.classList.add("active");
-      }
-      setInitialLoad(false);
-    }
-  }, [initialLoad]);
   return (
     <Box sx={{ position: "relative" }}>
       <Swiper
         effect={"fade"}
-        loop
+        loop={true}
         autoplay={{
-          delay: 2000,
+          delay: 1500,
         }}
         modules={[Pagination, EffectFade, Autoplay]}
         spaceBetween={10}
         hashNavigation
         slidesPerView={1}
         pagination={pagination}
-        onSlideChange={(e) => {
-          handleSlideChange(e);
-        }}
       >
         {SlideData.map((item, i) => {
           return (

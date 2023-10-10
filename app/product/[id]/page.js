@@ -9,9 +9,8 @@ import { productState } from "@/app/GlobalRedux/Slices/productSlice";
 import { addToCart } from "@/app/GlobalRedux/Slices/productSlice";
 
 function page() {
-  const { DummyData, productList } = useSelector(productState);
+  const { products, productList } = useSelector(productState);
   const [data, setData] = React.useState(null);
-  // const [quantity, setQuantity] = React.useState(null);
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const searchId = searchParams.get("id");
@@ -21,17 +20,11 @@ function page() {
     dispatch(addToCart(item));
     alert("item added to cart !");
   };
-  // React.useEffect(() => {
-  //   const newItem = productList?.find((item) => item.id == data.id);
-  //   if (newItem) {
-  //     setQuantity(newItem.quantity_available);
-  //   }
-  // }, [productList]);
 
   React.useEffect(() => {
-    const item = DummyData.find((item) => item.id == searchId);
+    const item = products.find((item) => item.id == searchId);
     setData(item);
-  }, [searchId, DummyData]);
+  }, [searchId, products]);
 
   return (
     <Box

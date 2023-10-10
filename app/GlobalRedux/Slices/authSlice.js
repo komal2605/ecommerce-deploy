@@ -1,18 +1,11 @@
-import { auth, db } from "@/firebase/firebase.config";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+  deleteUser,
+  getData,
+  signIn,
+  signUp,
+  updateUser,
+} from "../APIs/firebaseAPI";
 
 const initialState = {
   loading: false,
@@ -25,22 +18,12 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ email, password, username, is_admin }, { dispatch }) => {
     try {
-      const userRef = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const userData = {
-        username: username,
-        email: userRef.user.email,
-        is_admin: is_admin,
-        uid: userRef.user.uid,
-      };
-      const userDocRef = doc(db, "user", userRef.user.uid);
-      await setDoc(userDocRef, userData);
-      alert("user successfully signed up");
+      const userData = await signUp(email, password, username, is_admin);
+      console.log(userData);
       dispatch(setUser(userData));
+      debugger;
       dispatch(setIsOpenModal({ bool: false }));
+      alert("user successfully signed up");
     } catch (error) {
       return alert(error.message + " Please try with another credentials");
     }
@@ -49,43 +32,26 @@ export const registerUser = createAsyncThunk(
 
 export const signInUser = createAsyncThunk(
   "signInUser/signIn",
-  async ({ email, password }, { dispatch, getState }) => {
+  async ({ email, password }, { dispatch }) => {
     try {
-      const userRef = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(getUsersAsync());
-
-      const state = getState();
-      const signedInUser = state.auth.users.find(
-        (user) => user.uid === userRef.user.uid
+      const userRef = await signIn(email, password);
+      const userList = await dispatch(getUsersAsync());
+      const loggedUser = userList.payload.find(
+        (item) => userRef.user.uid === item.uid
       );
-
-      if (signedInUser) {
-        const userData = {
-          username: signedInUser.username,
-          email: userRef.user.email,
-          is_admin: signedInUser.is_admin,
-          uid: userRef.user.uid,
-        };
-
-        dispatch(setUser(userData));
-        dispatch(setIsOpenModal({ bool: false }));
-      } else {
-        alert("User data not found");
+      if (loggedUser) {
+        dispatch(setUser(loggedUser));
       }
       alert("logged in successfully");
     } catch (error) {
-      alert("Wrong credentials");
+      alert("Wrong credentials", error);
     }
   }
 );
+
 export const getUsersAsync = createAsyncThunk("auth/getUsers", async () => {
   try {
-    const docs = [];
-    const collectionRef = collection(db, "user");
-    const snapshot = await getDocs(collectionRef);
-    snapshot.forEach((doc) => {
-      docs.push(doc.data());
-    });
+    const docs = await getData("user");
     return docs;
   } catch (error) {
     throw error;
@@ -95,10 +61,7 @@ export const updateUserAsync = createAsyncThunk(
   "updateUser/update",
   async ({ uid, is_admin }) => {
     try {
-      const docRef = doc(db, "user", uid);
-      const updatedDoc = await updateDoc(docRef, {
-        is_admin: is_admin,
-      });
+      await updateUser(uid, is_admin);
       alert("updated successfully");
     } catch (e) {
       console.log(e.message);
@@ -110,13 +73,12 @@ export const deleteUserAsync = createAsyncThunk(
   "auth/deleteUser",
   async (uid, { dispatch }) => {
     try {
-      const userRef = doc(db, "user", uid);
-      await deleteDoc(userRef);
+      await deleteUser(uid);
       alert("User successfully deleted");
-      dispatch(getUsersAsync()); // Fetch updated user list after deletion
+      dispatch(getUsersAsync());
     } catch (error) {
       console.error("Error deleting user:", error);
-      throw error; // Throw the error to be handled by the rejection action
+      throw error;
     }
   }
 );
@@ -130,6 +92,9 @@ export const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    setUsers: (state, action) => {
+      state.users = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -156,7 +121,7 @@ export const authSlice = createSlice({
       })
       .addCase(getUsersAsync.pending, (state) => {})
       .addCase(getUsersAsync.fulfilled, (state, action) => {
-        state.users = action.payload; // Update the users array in the state with the fetched data
+        state.users = action.payload;
       })
       .addCase(getUsersAsync.rejected, (state, action) => {
         console.error("Error fetching users:", action.error.message);
@@ -165,7 +130,7 @@ export const authSlice = createSlice({
         state.updateUserLoading = true;
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
-        state.updateUserLoading = false; // Update the users array in the state with the fetched data
+        state.updateUserLoading = false;
       })
       .addCase(updateUserAsync.rejected, (state, action) => {
         state.updateUserLoading = false;
@@ -174,6 +139,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setIsOpenModal, setUser } = authSlice.actions;
+export const { setIsOpenModal, setUser, setUsers } = authSlice.actions;
 export const authState = (state) => state.auth;
 export default authSlice.reducer;

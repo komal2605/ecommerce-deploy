@@ -15,7 +15,6 @@ import {
   AppBar,
   Typography,
 } from "@mui/material";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -24,7 +23,11 @@ import Login from "@/components/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { authState, setIsOpenModal } from "@/app/GlobalRedux/Slices/authSlice";
 import Link from "next/link";
-import { productState } from "@/app/GlobalRedux/Slices/productSlice";
+import {
+  getProductsAsync,
+  postProductAsync,
+  productState,
+} from "@/app/GlobalRedux/Slices/productSlice";
 
 const drawerWidth = 240;
 const navItems = [
@@ -97,6 +100,10 @@ function DrawerAppBar() {
     </Box>
   );
 
+  React.useEffect(() => {
+    dispatch(getProductsAsync());
+    // dispatch(postProductAsync());
+  }, []);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
