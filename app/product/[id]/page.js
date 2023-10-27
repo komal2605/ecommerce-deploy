@@ -5,11 +5,11 @@ import { Box, Button, Input, Rating, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { productState } from "@/app/GlobalRedux/Slices/productSlice";
-import { addToCart } from "@/app/GlobalRedux/Slices/productSlice";
+import { productState } from "@/GlobalRedux/Slices/productSlice";
+import { addToCart } from "@/GlobalRedux/Slices/productSlice";
 
 function page() {
-  const { products, productList } = useSelector(productState);
+  const { products } = useSelector(productState);
   const [data, setData] = React.useState(null);
   const dispatch = useDispatch();
   const searchParams = useSearchParams();

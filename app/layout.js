@@ -1,7 +1,7 @@
 import ThemeRegistry from "@/Theme/ThemeRegistry";
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Providers from "./GlobalRedux/provider";
+import Providers from "@/GlobalRedux/provider";
 
 export const metadata = {
   title: "Create Next App",

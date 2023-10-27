@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   deleteUser,
+  getCurrentUser,
   getData,
   signIn,
   signUp,
@@ -29,7 +30,26 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
+export const getAuthenticatedAsync = createAsyncThunk(
+  "authenticated/getauthenticated",
+  async (_, { dispatch }) => {
+    try {
+      const user = await getCurrentUser();
+      const { uid } = user;
+      const userList = await getData("user");
+      const userData = userList.find((item) => uid === item.uid);
+      const { is_admin, username } = userData;
+      dispatch(
+        setUser({
+          is_admin,
+          username,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 export const signInUser = createAsyncThunk(
   "signInUser/signIn",
   async ({ email, password }, { dispatch }) => {

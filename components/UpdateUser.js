@@ -46,7 +46,6 @@ function UpdateUser() {
         checked[uid] !== users.find((user) => user.uid === uid).is_admin
       ) {
         dispatch(updateUserAsync({ uid: uid, is_admin: checked[uid] }));
-        // console.log("uid", uid, "is_admin", checked[uid]);
       }
     }
   };
@@ -61,7 +60,6 @@ function UpdateUser() {
       ...prevChecked,
       [uid]: value,
     }));
-    // console.log(checked);
   };
   return (
     <Box>

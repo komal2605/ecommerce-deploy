@@ -2,8 +2,8 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import { productState } from "../GlobalRedux/Slices/productSlice";
 import Cart from "@/components/Cart";
+import { productState } from "@/GlobalRedux/Slices/productSlice";
 
 function page() {
   const { productList } = useSelector(productState);

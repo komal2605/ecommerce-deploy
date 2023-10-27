@@ -18,7 +18,7 @@ import {
   productState,
   setRemoveItem,
   setUpdateCollection,
-} from "@/app/GlobalRedux/Slices/productSlice";
+} from "@/GlobalRedux/Slices/productSlice";
 
 function Cart() {
   const { productList } = useSelector(productState);

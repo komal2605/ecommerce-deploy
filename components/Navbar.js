@@ -21,13 +21,17 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Login from "@/components/Login";
 import { useDispatch, useSelector } from "react-redux";
-import { authState, setIsOpenModal } from "@/app/GlobalRedux/Slices/authSlice";
+import {
+  authState,
+  getAuthenticatedAsync,
+  setIsOpenModal,
+} from "@/GlobalRedux/Slices/authSlice";
 import Link from "next/link";
 import {
   getProductsAsync,
   postProductAsync,
   productState,
-} from "@/app/GlobalRedux/Slices/productSlice";
+} from "@/GlobalRedux/Slices/productSlice";
 
 const drawerWidth = 240;
 const navItems = [
@@ -103,6 +107,7 @@ function DrawerAppBar() {
   React.useEffect(() => {
     dispatch(getProductsAsync());
     // dispatch(postProductAsync());
+    dispatch(getAuthenticatedAsync());
   }, []);
   return (
     <Box sx={{ display: "flex" }}>

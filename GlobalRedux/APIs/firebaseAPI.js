@@ -16,6 +16,18 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+export const getCurrentUser = async () => {
+  try {
+    const user = await new Promise((resolve) => {
+      auth.onAuthStateChanged(resolve);
+    });
+    return user;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    throw error;
+  }
+};
+
 export const signUp = async (email, password, username, is_admin) => {
   try {
     debugger;

@@ -19,7 +19,7 @@ import {
   registerUser,
   setIsOpenModal,
   signInUser,
-} from "@/app/GlobalRedux/Slices/authSlice";
+} from "@/GlobalRedux/Slices/authSlice";
 
 const style = {
   position: "absolute",
